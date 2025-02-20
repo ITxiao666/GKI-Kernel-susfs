@@ -164,7 +164,7 @@ jobs:
           elif [[ "${{ inputs.kernelsu_branch }}" == "Dev" && ( "${{ inputs.kernelsu_variant }}" == "Official" || "${{ inputs.kernelsu_variant }}" == "MKSU" ) ]]; then
               echo "BRANCH=-s main" >> $GITHUB_ENV
           elif [[ "${{ inputs.kernelsu_branch }}" == "Dev" && "${{ inputs.kernelsu_variant }}" == "Next" ]]; then
-              echo "BRANCH=-s main" >> $GITHUB_ENV
+              echo "BRANCH=-s next" >> $GITHUB_ENV
           elif [[ "${{ inputs.kernelsu_branch }}" == "Other" && -n "${{ inputs.kernelsu_branch_other }}" ]]; then
             echo "BRANCH=-s ${{ inputs.kernelsu_branch_other }}" >> $GITHUB_ENV
           else
@@ -275,6 +275,11 @@ jobs:
           # Add additional tmpfs config setting
           echo "CONFIG_TMPFS_XATTR=y" >> ./common/arch/arm64/configs/gki_defconfig
           echo "CONFIG_TMPFS_POSIX_ACL=y" >> ./common/arch/arm64/configs/gki_defconfig
+
+          # Add additional tmpfs config setting
+          echo "CONFIG_IP_NF_TARGET_TTL=y" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_IP6_NF_TARGET_HL=y" >> ./common/arch/arm64/configs/gki_defconfig
+          echo "CONFIG_IP6_NF_MATCH_HL=y" >> ./common/arch/arm64/configs/gki_defconfig
 
           # Remove check_defconfig
           sed -i 's/check_defconfig//' ./common/build.config.gki
